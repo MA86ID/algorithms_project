@@ -12,10 +12,13 @@ def similarity(a, b):
 
 max_sim_list =[]
 for name1, answers in data.items():
-    max_similarity=[name1,0,0,0]
+
+    num_questions = max(max(item['qnumber'] for item in answers) for answers in data.values())
+    max_similarity = [name1] + [0] * num_questions
+    reference_answers = {item["qnumber"]: item["description"] for item in data[name1]}
+
     for anser in answers:
         q = anser['qnumber']
-        reference_answers = {item["qnumber"]: item["description"] for item in data[name1]}
         ref_desc = reference_answers.get(q)
         if isinstance(ref_desc , str ) and ref_desc != "" and ref_desc is not None :
             reference_name = name1
