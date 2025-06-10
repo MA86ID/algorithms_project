@@ -2,11 +2,17 @@ import json
 import difflib
 import tkinter as tk
 from tkinter import filedialog, ttk, messagebox
+import re
+
+def normalize_text(text):
+    return re.sub(r'[\s\.\,\؛\:\!\؟\?\-\(\)\[\]\{\}\"\'،؛]', '', text.lower())
 
 def similarity(a, b):
     if not a or not b:
         return 0.0
-    return difflib.SequenceMatcher(None, a.lower(), b.lower()).ratio()
+    norm_a = normalize_text(a)
+    norm_b = normalize_text(b)
+    return difflib.SequenceMatcher(None, norm_a, norm_b).ratio()
 
 def get_similarity_data(data):
     results = []
